@@ -8,13 +8,22 @@ def make_owner_from_flat_details(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
 
     for flat in Flat.objects.all():
-        new_owner = Owner.objects.get_or_create(
+        flat_owner = Owner.objects.get_or_create(
             owner=flat.owner,
             defaults={
                 'owners_phonenumber': flat.owners_phonenumber,
                 'owner_pure_phone': flat.owner_pure_phone
             }
         )
+
+        flat_owner[0].flats_owned.set([flat.pk])
+
+
+def revert_changes(apps, schema_editor):
+    Owner = apps.get_model('property', 'Owner')
+
+    for owner in Owner.objects.all():
+        owner.delete()
 
 
 class Migration(migrations.Migration):
@@ -24,5 +33,5 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(make_owner_from_flat_details)
+        migrations.RunPython(make_owner_from_flat_details, revert_changes)
     ]
