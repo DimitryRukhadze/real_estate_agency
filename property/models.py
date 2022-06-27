@@ -63,18 +63,18 @@ class Flat(models.Model):
 
 
 class Complaint(models.Model):
-    complaining_user = models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.SET_NULL,
         null=True,
         verbose_name='Кто жаловался'
     )
-    compromised_flat = models.ForeignKey(
+    flat = models.ForeignKey(
         Flat,
         on_delete=models.CASCADE,
         verbose_name='Квартира, на которую пожаловались'
     )
-    complaint_text = models.TextField('Текст жалобы')
+    text = models.TextField('Текст жалобы')
 
 
 class Owner(models.Model):
@@ -83,8 +83,8 @@ class Owner(models.Model):
         max_length=200,
         db_index=True
     )
-    owners_phonenumber = models.CharField('Номер владельца', max_length=20)
-    owner_pure_phone = PhoneNumberField(
+    phonenumber = models.CharField('Номер владельца', max_length=20)
+    pure_phone = PhoneNumberField(
         blank=True,
         db_index=True
     )
