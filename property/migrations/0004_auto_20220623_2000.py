@@ -10,9 +10,7 @@ def fill_new_building_fields(apps, schema_editor):
         if flat.construction_year >= 2015:
             flat.new_building = True
             flat.save()
-        else:
-            flat.new_building = False
-            flat.save()
+
 
 class Migration(migrations.Migration):
 
