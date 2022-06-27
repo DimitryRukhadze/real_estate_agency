@@ -5,7 +5,7 @@ from django.db import migrations
 
 def copy_parsed_phonenumbers(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         parsed_number = phonenumbers.parse(flat.owners_phonenumber, 'RU')
         if phonenumbers.is_valid_number(parsed_number):
             flat.owner_pure_phone = parsed_number
