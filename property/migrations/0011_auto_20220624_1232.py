@@ -13,7 +13,7 @@ def copy_parsed_phonenumbers(apps, schema_editor):
 
 def reverse_changes(apps, schema_editor):
     Flat = apps.get_model('property', 'Flat')
-    for flat in Flat.objects.all():
+    for flat in Flat.objects.all().iterator():
         flat.owner_pure_phone = ''
         flat.save()
 
